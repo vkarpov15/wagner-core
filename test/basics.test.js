@@ -14,7 +14,7 @@ describe('core', function() {
       }, 50);
     });
 
-    wagner.invoke(function(error, tristan) {
+    wagner.invokeAsync(function(error, tristan) {
       assert.ok(!error);
       assert.equal(tristan, 'tristan');
       done();
@@ -34,7 +34,7 @@ describe('core', function() {
       }, 25);
     });
 
-    wagner.invoke(function(error, tristan, isolde) {
+    wagner.invokeAsync(function(error, tristan, isolde) {
       assert.equal(error, 'I got an error');
       assert.ok(!tristan);
       assert.ok(!isolde);
@@ -84,7 +84,7 @@ describe('core', function() {
       }, 25);
     });
 
-    wagner.invoke(function(error, tristan, isolde) {
+    wagner.invokeAsync(function(error, tristan, isolde) {
       assert.ok(!error);
       assert.equal(tristan, 'tristan');
       assert.equal(isolde, 'tristan & isolde');
@@ -105,7 +105,7 @@ describe('core', function() {
       }, 25);
     });
 
-    wagner.invoke(function(tristan, isolde) {
+    wagner.invokeAsync(function(tristan, isolde) {
       assert.equal(tristan, 'tristan');
       assert.equal(isolde, 'tristan & isolde');
       done();
@@ -123,7 +123,7 @@ describe('core', function() {
       }, 25);
     });
 
-    wagner.invoke(function(error, sigfried) {
+    wagner.invokeAsync(function(error, sigfried) {
       assert.ok(!error);
       assert.equal(sigfried.sword.from, 'barnstokkr');
       done();
@@ -149,7 +149,7 @@ describe('core', function() {
       }, 25);
     });
 
-    wagner.invoke(function(error, sigfried) {
+    wagner.invokeAsync(function(error, sigfried) {
       assert.ok(!error);
       assert.equal(sigfried.sword.from, 'barnstokkr');
       assert.ok(!sigmund);
