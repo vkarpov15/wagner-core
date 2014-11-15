@@ -1,0 +1,20 @@
+{
+  "name": "wagner-core",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./test/*.test.js"
+  },
+  "dependencies": {
+    "async": "0.9.0",
+    "get-parameter-names": "0.2.0",
+    "sequencify": "0.0.7",
+    "underscore": "1.5.2"
+  },
+  "devDependencies": {
+    "mocha": "2.0.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
