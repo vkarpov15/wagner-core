@@ -51,10 +51,22 @@ describe('core', function() {
       return 'isolde';
     });
 
-    wagner.invoke(function(error, tristan, isolde) {
-      assert.ok(!error);
-      assert.equal(tristan, 'tristan');
-      assert.equal(isolde, 'isolde');
+    var e;
+    var t;
+    var i;
+    var returnValue = wagner.invoke(function(error, tristan, isolde) {
+      e = error;
+      t = tristan;
+      i = isolde;
+
+      return 'done';
+    });
+
+    assert.ok(!e);
+    assert.equal(t, 'tristan');
+    assert.equal(i, 'isolde');
+    assert.equal(returnValue, 'done');
+    process.nextTick(function() {
       done();
     });
   });
