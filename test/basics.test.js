@@ -21,6 +21,23 @@ describe('core', function() {
     }, {});
   });
 
+  it('returns a promise', function(done) {
+    wagner.task('tristan', function(callback) {
+      setTimeout(function() {
+        callback(null, 'tristan');
+      }, 50);
+    });
+
+    var promise = wagner.invokeAsync(function(error, tristan) {
+      return tristan;
+    }, {});
+
+    promise.then(function(v) {
+      assert.equal(v, 'tristan');
+      done();
+    });
+  });
+
   it('error', function(done) {
     wagner.task('tristan', function(callback) {
       setTimeout(function() {
