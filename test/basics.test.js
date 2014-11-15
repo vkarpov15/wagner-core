@@ -237,3 +237,39 @@ describe('parallel', function() {
       });
   });
 });
+
+describe('series', function() {
+  it('works', function(done) {
+    wagner.series(
+      ['parsifal', 'gotterdammerung'],
+      function(value, index, callback) {
+        callback(null, value.toUpperCase());
+      },
+      function(error, results) {
+        assert.ok(!error);
+        assert.equal(results[0], 'PARSIFAL');
+        assert.equal(results[1], 'GOTTERDAMMERUNG');
+        done();
+      });
+  });
+
+  it('catches errors', function(done) {
+    wagner.series(
+      ['parsifal', 'gotterdammerung'],
+      function(value, index, callback) {
+        if (index > 0) {
+          throw value;
+        } else {
+          callback(null, value);
+
+        }
+      },
+      function(error, results) {
+        assert.ok(!!error);
+        assert.ok(!results);
+        assert.equal(error.error, 'gotterdammerung');
+        assert.equal(error.index, 1);
+        done();
+      });
+  });
+});
