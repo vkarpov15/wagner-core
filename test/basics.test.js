@@ -156,4 +156,20 @@ describe('core', function() {
       done();
     });
   });
+
+  it('locals', function(done) {
+    wagner.task('sigfried', function(nothung, callback) {
+      setTimeout(function() {
+        callback(null, { sword: nothung });
+      }, 25);
+    });
+
+    wagner.invokeAsync(
+      function(error, sigfried) {
+        assert.ok(!error);
+        assert.equal(sigfried.sword.from, 'barnstokkr');
+        done();
+      },
+      { nothung: { from: 'barnstokkr' } });
+  });
 });
