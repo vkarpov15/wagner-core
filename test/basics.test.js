@@ -117,4 +117,31 @@ describe('core', function() {
       done();
     });
   });
+
+  it('only executes necessary tasks', function(done) {
+    wagner.factory('nothung', function() {
+      return { from: 'barnstokkr' };
+    });
+
+    wagner.task('sigfried', function(nothung, callback) {
+      setTimeout(function() {
+        callback(null, { sword: nothung });
+      }, 25);
+    });
+
+    var sigmund = 0;
+    wagner.task('sigmund', function(nothung, callback) {
+      ++sigmund;
+      setTimeout(function() {
+        callback(null, { sword: nothung });
+      }, 25);
+    });
+
+    wagner.invoke(function(error, sigfried) {
+      assert.ok(!error);
+      assert.equal(sigfried.sword.from, 'barnstokkr');
+      assert.ok(!sigmund);
+      done();
+    });
+  });
 });
