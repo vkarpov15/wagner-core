@@ -219,4 +219,21 @@ describe('parallel', function() {
         done();
       });
   });
+
+  it('catches errors', function(done) {
+    wagner.parallel(
+      { first: 'parsifal', second: 'gotterdammerung' },
+      function(value, key, callback) {
+        throw key + ' invalid';
+      },
+      function(error, results) {
+        assert.ok(!!error);
+        assert.equal(2, error.length);
+        assert.ok(error.indexOf('first invalid') !== -1);
+        assert.ok(error.indexOf('second invalid') !== -1);
+        assert.equal(results.first.error, 'first invalid');
+        assert.equal(results.second.error, 'second invalid');
+        done();
+      });
+  });
 });
