@@ -172,6 +172,20 @@ describe('core', function() {
       },
       { nothung: { from: 'barnstokkr' } });
   });
+
+  it('async errors', function(done) {
+    wagner.task('sigfried', function(callback) {
+      throw 'Problem!';
+    });
+
+    wagner.invokeAsync(
+      function(error, sigfried) {
+        assert.ok(error);
+        assert.ok(!sigfried);
+        assert.equal(error, 'Problem!');
+        done();
+      });
+  });
 });
 
 describe('parallel', function() {
