@@ -173,3 +173,36 @@ describe('core', function() {
       { nothung: { from: 'barnstokkr' } });
   });
 });
+
+describe('parallel', function() {
+  it('works', function(done) {
+    wagner.parallel(
+      { first: 'parsifal', second: 'gotterdammerung' },
+      function(value, key, callback) {
+        callback(null, value.toUpperCase());
+      },
+      function(error, results) {
+        assert.ok(!error);
+        assert.equal(results.first.result, 'PARSIFAL');
+        assert.equal(results.second.result, 'GOTTERDAMMERUNG');
+        done();
+      });
+  });
+
+  it('returns errors', function(done) {
+    wagner.parallel(
+      { first: 'parsifal', second: 'gotterdammerung' },
+      function(value, key, callback) {
+        callback(key + ' invalid');
+      },
+      function(error, results) {
+        assert.ok(!!error);
+        assert.equal(2, error.length);
+        assert.ok(error.indexOf('first invalid') !== -1);
+        assert.ok(error.indexOf('second invalid') !== -1);
+        assert.equal(results.first.error, 'first invalid');
+        assert.equal(results.second.error, 'second invalid');
+        done();
+      });
+  });
+});
