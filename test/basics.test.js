@@ -71,6 +71,24 @@ describe('core', function() {
     });
   });
 
+  it('sync errors', function(done) {
+    wagner.task('tristan', function() {
+      return 'tristan';
+    });
+
+    wagner.task('isolde', function() {
+      throw 'Problem!';
+    });
+
+    assert.throws(function() {
+      var returnValue = wagner.invoke(function(error, tristan, isolde) {
+        return 'done';
+      });
+    }, 'Problem!');
+
+    done();
+  });
+
   it('recursive', function(done) {
     wagner.task('tristan', function(callback) {
       setTimeout(function() {
