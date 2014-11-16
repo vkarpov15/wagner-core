@@ -12,6 +12,7 @@
     "underscore": "1.5.2"
   },
   "devDependencies": {
+    "bdd-dox" : "https://github.com/vkarpov15/bdd-dox/archive/master.tar.gz",
     "mocha": "2.0.1"
   },
   "author": "",
