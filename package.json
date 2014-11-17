@@ -16,6 +16,6 @@
     "js-beautify": "1.5.4",
     "mocha": "2.0.1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Valeri Karpov",
+  "license": "Apache 2.0"
 }

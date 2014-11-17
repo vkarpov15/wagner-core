@@ -126,6 +126,31 @@ wagner.invokeAsync(
   }, {});
 ```
 
+##### It returns an Promises/A+ conformant promise
+
+For compatibility with the `yield` keyword, as well as chaining,
+`invokeAsync()` returns a
+[bluebird](https://www.npmjs.org/package/bluebird) promise that is
+rejected if an error occurs in any of the tasks, or fulfilled with
+the return value of the provided function otherwise.
+
+```
+wagner.task('valkyrie', function(callback) {
+  setTimeout(function() {
+    callback(null, 'valkyrie');
+  }, 0);
+});
+
+var promise = wagner.invokeAsync(function(error, valkyrie) {
+  return valkyrie;
+}, {});
+
+promise.then(function(v) {
+  assert.equal(v, 'valkyrie');
+  done();
+});
+```
+
 ### `wagner.invoke()`
 
 `invoke()` is the synchronous version of `invokeAsync()`. It will
