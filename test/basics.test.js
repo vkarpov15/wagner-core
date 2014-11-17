@@ -308,3 +308,23 @@ describe('series', function() {
       });
   });
 });
+
+describe('modules', function() {
+  it('works', function(done) {
+    var foods = wagner.module('foods');
+    foods.factory('bacon', function() {
+      return 'bacon';
+    });
+    foods.factory('eggs', function() {
+      return 'eggs';
+    });
+
+    var breakfast = wagner.module('breakfast', ['foods']);
+    breakfast.invoke(function(error, bacon, eggs) {
+      assert.ok(!error);
+      assert.equal(bacon, 'bacon');
+      assert.equal(eggs, 'eggs');
+      done();
+    });
+  });
+});
