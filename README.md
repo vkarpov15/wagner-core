@@ -126,6 +126,40 @@ wagner.invokeAsync(
   }, {});
 ```
 
+### `wagner.invoke()`
+
+`invoke()` is the synchronous version of `invokeAsync()`. It will
+*only* execute sync tasks (tasks that don't take a parameter named
+'callback' or 'cb') and throw an error if there are any async tasks.
+
+#### It executes sync tasks and returns the return value of the provided function
+
+```
+wagner.task('tristan', function() {
+  return 'tristan';
+});
+
+wagner.task('isolde', function() {
+  return 'isolde';
+});
+
+var e;
+var t;
+var i;
+var returnValue = wagner.invoke(function(error, tristan, isolde) {
+  e = error;
+  t = tristan;
+  i = isolde;
+
+  return 'done';
+});
+
+assert.ok(!e);
+assert.equal(t, 'tristan');
+assert.equal(i, 'isolde');
+assert.equal(returnValue, 'done');
+```
+
 ### `wagner.parallel()`
 
 For convenience, Wagner includes its own `.parallel()` function for
