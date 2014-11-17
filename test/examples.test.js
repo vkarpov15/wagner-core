@@ -105,3 +105,21 @@ describe('`wagner.invokeAsync()`', function() {
       {});
   });
 });
+
+/* For convenience, Wagner includes its own `.parallel()` function for
+ * executing a collection of async functions in parallel. */
+describe('`wagner.parallel()`', function() {
+  it('takes a map and executes a function for all key/value pairs', function(done) {
+    wagner.parallel(
+      { first: 'eggs', second: 'bacon' },
+      function(value, key, callback) {
+        callback(null, value.toUpperCase());
+      },
+      function(error, results) {
+        assert.ok(!error);
+        assert.equal(results.first.result, 'EGGS');
+        assert.equal(results.second.result, 'BACON');
+        done();
+      });
+  });
+});
