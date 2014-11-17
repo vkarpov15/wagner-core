@@ -33,7 +33,7 @@ for (var i = 0; i < blocks.length; ++i) {
 
   for (var j = 0; j < describe.blocks.length; ++j) {
     var it = describe.blocks[j];
-    mdOutput += '#### It ' + it.contents + '\n\n';
+    mdOutput += '##### It ' + it.contents + '\n\n';
     mdOutput += it.comments[0] ? trimEachLine(it.comments[0]) + '\n\n' : '';
     mdOutput += '```\n';
     mdOutput += beautify(it.code, { indent_size: 2 }) + '\n';

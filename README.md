@@ -10,7 +10,7 @@ Dependency-injection-inspired async framework that doubles as an isomorphic Angu
 async code with Wagner. It takes as arguments a function that
 takes an error and a list of parameters, and a map of *locals*.
 
-#### It allows you to execute async tasks based on parameter names
+##### It allows you to execute async tasks based on parameter names
 
 Wagner's most basic functionality is to register an async
 task by name, and then utilize the value computed by the
@@ -30,7 +30,7 @@ wagner.invokeAsync(function(error, eggs) {
 }, {});
 ```
 
-#### It allows you to use locals
+##### It allows you to use locals
 
 *locals* are values specific to a particular execution of
 `invokeAsync()`. They may be utilized by any task in the
@@ -52,7 +52,7 @@ wagner.invokeAsync(function(error, eggs) {
 });
 ```
 
-#### It executes tasks with maximum parallelization
+##### It executes tasks with maximum parallelization
 
 Tasks can rely on each other, and each task is executed as soon
 as all its dependencies are met.
@@ -98,7 +98,7 @@ wagner.invokeAsync(
   });
 ```
 
-#### It bubbles up the first error
+##### It bubbles up the first error
 
 If any task in the execution tree returns an error, execution
 is stopped immediately and the function is called with the error
@@ -132,7 +132,7 @@ wagner.invokeAsync(
 *only* execute sync tasks (tasks that don't take a parameter named
 'callback' or 'cb') and throw an error if there are any async tasks.
 
-#### It executes sync tasks and returns the return value of the provided function
+##### It executes sync tasks and returns the return value of the provided function
 
 ```
 wagner.task('tristan', function() {
@@ -165,7 +165,7 @@ assert.equal(returnValue, 'done');
 For convenience, Wagner includes its own `.parallel()` function for
 executing a collection of async functions in parallel.
 
-#### It takes a map and executes a function for all key/value pairs
+##### It takes a map and executes a function for all key/value pairs
 
 ```
 wagner.parallel({
