@@ -16,7 +16,7 @@ Wagner's most basic functionality is to register an async
 task by name, and then utilize the value computed by the
 async task in subsequent tasks.
 
-```
+```javascript
 wagner.task('eggs', function(callback) {
   setTimeout(function() {
     callback(null, 'done cooking!');
@@ -36,7 +36,7 @@ wagner.invokeAsync(function(error, eggs) {
 `invokeAsync()`. They may be utilized by any task in the
 task graph.
 
-```
+```javascript
 wagner.task('eggs', function(number, callback) {
   setTimeout(function() {
     callback(null, 'finished making ' + number + ' eggs');
@@ -57,7 +57,7 @@ wagner.invokeAsync(function(error, eggs) {
 Tasks can rely on each other, and each task is executed as soon
 as all its dependencies are met.
 
-```
+```javascript
 var executed = {};
 
 wagner.task('pan', function(callback) {
@@ -104,7 +104,7 @@ If any task in the execution tree returns an error, execution
 is stopped immediately and the function is called with the error
 as the first parameter.
 
-```
+```javascript
 wagner.task('eggs', function(callback) {
   setTimeout(function() {
     callback('no eggs left!');
@@ -134,7 +134,7 @@ For compatibility with the `yield` keyword, as well as chaining,
 rejected if an error occurs in any of the tasks, or fulfilled with
 the return value of the provided function otherwise.
 
-```
+```javascript
 wagner.task('valkyrie', function(callback) {
   setTimeout(function() {
     callback(null, 'valkyrie');
@@ -159,7 +159,7 @@ promise.then(function(v) {
 
 ##### It executes sync tasks and returns the return value of the provided function
 
-```
+```javascript
 wagner.task('tristan', function() {
   return 'tristan';
 });
@@ -192,7 +192,7 @@ executing a collection of async functions in parallel.
 
 ##### It takes a map and executes a function for all key/value pairs
 
-```
+```javascript
 wagner.parallel({
     first: 'eggs',
     second: 'bacon'
