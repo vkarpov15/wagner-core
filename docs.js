@@ -1,8 +1,8 @@
-var bddDox = require('bdd-dox');
+var acquit = require('acquit');
 var beautify = require('js-beautify');
 
 var content = require('fs').readFileSync('./test/examples.test.js').toString();
-var blocks = bddDox.parse(content);
+var blocks = acquit.parse(content);
 
 var trimEachLine = function(str) {
   var lines = str.split('\n');

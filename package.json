@@ -12,7 +12,7 @@
     "underscore": "1.5.2"
   },
   "devDependencies": {
-    "bdd-dox": "https://github.com/vkarpov15/bdd-dox/archive/master.tar.gz",
+    "acquit": "0.0.2",
     "js-beautify": "1.5.4",
     "mocha": "2.0.1"
   },
