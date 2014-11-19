@@ -22,7 +22,7 @@ var mdOutput =
   '# wagner-core\n\n' +
   'Dependency-injection-inspired async framework that doubles as an ' +
   'isomorphic AngularJS-compatible dependency injector.\n\n' +
-  '<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" style="width: 300px">\n\n'
+  '<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" style="width: 80px">\n\n'
   '## API\n\n';
 
 for (var i = 0; i < blocks.length; ++i) {

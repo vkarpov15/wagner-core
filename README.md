@@ -2,7 +2,7 @@
 
 Dependency-injection-inspired async framework that doubles as an isomorphic AngularJS-compatible dependency injector.
 
-<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" style="width: 300px">
+<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" style="width: 80px">
 
 ### `wagner.invokeAsync()`
 
