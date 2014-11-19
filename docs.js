@@ -36,7 +36,7 @@ for (var i = 0; i < blocks.length; ++i) {
     var it = describe.blocks[j];
     mdOutput += '##### It ' + it.contents + '\n\n';
     mdOutput += it.comments[0] ? trimEachLine(it.comments[0]) + '\n\n' : '';
-    mdOutput += '```\n';
+    mdOutput += '```javascript\n';
     mdOutput += beautify(it.code, { indent_size: 2 }) + '\n';
     mdOutput += '```\n\n';
   }
