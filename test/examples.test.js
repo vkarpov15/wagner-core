@@ -160,7 +160,11 @@ describe('`wagner.invoke()`', function() {
 });
 
 /* For convenience, Wagner includes its own `.parallel()` function for
- * executing a collection of async functions in parallel. */
+ * executing a collection of async functions in parallel. The syntax
+ * is marginally different from
+ * [async](https://www.npmjs.org/package/async) in order to minimize
+ * the need to construct arrays of closures: the callback to
+ * `parallel()` takes as parameters the `key` and `value`. */
 describe('`wagner.parallel()`', function() {
   it('takes a map and executes a function for all key/value pairs', function(done) {
     wagner.parallel(
@@ -172,6 +176,29 @@ describe('`wagner.parallel()`', function() {
         assert.ok(!error);
         assert.equal(results.first.result, 'EGGS');
         assert.equal(results.second.result, 'BACON');
+        done();
+      });
+  });
+});
+
+/* Similar to `parallel()`, Wagner includes its own implementation
+ * of `series()` that attempts to minimize need to construct arrays
+ * of closures. */
+describe('`wagner.series()`', function() {
+  it('takes an array and executes a function on the values in order', function(done) {
+    var breakfastFoods = ['eggs', 'bacon'];
+    var orderOfExecution = [];
+    wagner.series(
+      breakfastFoods,
+      function(food, index, callback) {
+        orderOfExecution.push(food);
+        callback(null, food.toUpperCase());
+      },
+      function(error, results) {
+        assert.ok(!error);
+        assert.equal(results[0], 'EGGS');
+        assert.equal(results[1], 'BACON');
+        assert.deepEqual(orderOfExecution, breakfastFoods);
         done();
       });
   });
