@@ -33,10 +33,18 @@ describe('`wagner.invokeAsync()`', function() {
       }, 5);
     });
 
+    // First execute the task with number = 4...
     wagner.invokeAsync(function(error, eggs) {
       assert.ok(!error);
       assert.equal(eggs, 'finished making 4 eggs');
-      done();
+
+      // Then the same task with number = 6
+      wagner.invokeAsync(function(error, eggs) {
+        assert.ok(!error);
+        assert.equal(eggs, 'finished making 6 eggs');
+        done();
+      }, { number: 6 });
+
     }, { number: 4 });
   });
 
