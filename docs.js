@@ -4,20 +4,6 @@ var beautify = require('js-beautify');
 var content = require('fs').readFileSync('./test/examples.test.js').toString();
 var blocks = acquit.parse(content);
 
-var trimEachLine = function(str) {
-  var lines = str.split('\n');
-  var result = '';
-  for (var i = 0; i < lines.length; ++i) {
-    var toAdd = lines[i].trim();
-    if (toAdd.indexOf('* ') === 0) {
-      toAdd = toAdd.substr('* '.length);
-    }
-    result += (i > 0 ? '\n' : '') + toAdd;
-  }
-
-  return result;
-};
-
 var mdOutput =
   '# wagner-core\n\n' +
   'Dependency-injection-inspired async framework that doubles as an ' +
@@ -30,15 +16,15 @@ for (var i = 0; i < blocks.length; ++i) {
   var describe = blocks[i];
   mdOutput += '### ' + describe.contents + '\n\n';
   mdOutput += describe.comments[0] ?
-    trimEachLine(describe.comments[0]) + '\n\n' :
+    acquit.trimEachLine(describe.comments[0]) + '\n\n' :
     '';
 
   for (var j = 0; j < describe.blocks.length; ++j) {
     var it = describe.blocks[j];
     mdOutput += '##### It ' + it.contents + '\n\n';
-    mdOutput += it.comments[0] ? trimEachLine(it.comments[0]) + '\n\n' : '';
+    mdOutput += it.comments[0] ? acquit.trimEachLine(it.comments[0]) + '\n\n' : '';
     mdOutput += '```javascript\n';
-    mdOutput += beautify(it.code, { indent_size: 2 }) + '\n';
+    mdOutput += '    ' + it.code + '\n';
     mdOutput += '```\n\n';
   }
 }

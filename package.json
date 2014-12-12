@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "acquit": "0.0.3",
-    "js-beautify": "1.5.4",
     "mocha": "2.0.1"
   },
   "author": "Valeri Karpov",
