@@ -6,13 +6,15 @@ Wagner is primarily geared to be a more elegant and modern take on [orchestrator
 
 <img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" width="140">
 
-### `wagner.invokeAsync()`
+# API
+
+## `wagner.invokeAsync()`
 
 `invokeAsync()` is the primary function you will use to execute
 async code with Wagner. It takes as arguments a function that
 takes an error and a list of parameters, and a map of *locals*.
 
-##### It allows you to execute async tasks based on parameter names
+#### It allows you to execute async tasks based on parameter names
 
 Wagner's most basic functionality is to register an async
 task by name, and then utilize the value computed by the
@@ -34,7 +36,7 @@ async task in subsequent tasks.
   
 ```
 
-##### It allows you to use locals
+#### It allows you to use locals
 
 locals* are values specific to a particular execution of
 `invokeAsync()`. They may be utilized by any task in the
@@ -64,7 +66,7 @@ task graph.
   
 ```
 
-##### It executes tasks with maximum parallelization
+#### It executes tasks with maximum parallelization
 
 Tasks can rely on each other, and each task is executed as soon
 as all its dependencies are met.
@@ -108,7 +110,7 @@ as all its dependencies are met.
   
 ```
 
-##### It bubbles up the first error
+#### It bubbles up the first error
 
 If any task in the execution tree returns an error, execution
 is stopped immediately and the function is called with the error
@@ -139,7 +141,7 @@ as the first parameter.
   
 ```
 
-##### It returns an Promises/A+ conformant promise
+#### It returns an Promises/A+ conformant promise
 
 For compatibility with the `yield` keyword, as well as chaining,
 `invokeAsync()` returns a
@@ -166,13 +168,13 @@ the return value of the provided function otherwise.
   
 ```
 
-### `wagner.invoke()`
+## `wagner.invoke()`
 
 `invoke()` is the synchronous version of `invokeAsync()`. It will
 *only* execute sync tasks (tasks that don't take a parameter named
 'callback' or 'cb') and throw an error if there are any async tasks.
 
-##### It executes sync tasks and returns the return value of the provided function
+#### It executes sync tasks and returns the return value of the provided function
 
 ```javascript
     
@@ -202,7 +204,7 @@ the return value of the provided function otherwise.
   
 ```
 
-### `wagner.parallel()`
+## `wagner.parallel()`
 
 For convenience, Wagner includes its own `.parallel()` function for
 executing a collection of async functions in parallel. The syntax
@@ -211,7 +213,7 @@ is marginally different from
 the need to construct arrays of closures: the callback to
 `parallel()` takes as parameters the `key` and `value`.
 
-##### It takes a map and executes a function for all key/value pairs
+#### It takes a map and executes a function for all key/value pairs
 
 ```javascript
     
@@ -229,13 +231,13 @@ the need to construct arrays of closures: the callback to
   
 ```
 
-### `wagner.series()`
+## `wagner.series()`
 
 Similar to `parallel()`, Wagner includes its own implementation
 of `series()` that attempts to minimize need to construct arrays
 of closures.
 
-##### It takes an array and executes a function on the values in order
+#### It takes an array and executes a function on the values in order
 
 ```javascript
     
