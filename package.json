@@ -4,7 +4,8 @@
   "description": "Dependency-injection-inspired async framework that doubles as an isomorphic AngularJS-compatible dependency injector.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/*.test.js"
+    "test": "./node_modules/mocha/bin/mocha ./test/*.test.js",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
   "dependencies": {
     "bluebird": "2.3.11",
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "acquit": "0.0.3",
+    "istanbul": "0.3.2",
     "mocha": "2.0.1"
   },
   "author": "Valeri Karpov",
