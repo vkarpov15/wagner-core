@@ -1,5 +1,4 @@
 var acquit = require('acquit');
-var beautify = require('js-beautify');
 
 var content = require('fs').readFileSync('./test/examples.test.js').toString();
 var blocks = acquit.parse(content);
@@ -8,6 +7,7 @@ var mdOutput =
   '# wagner-core\n\n' +
   'Dependency-injection-inspired async framework that doubles as an ' +
   'isomorphic AngularJS-compatible dependency injector.\n\n' +
+  '  [![Build Status](https://travis-ci.org/vkarpov15/kareem.svg?branch=master)](https://travis-ci.org/vkarpov15/kareem)\n\n' +
   'Wagner is primarily geared to be a more elegant and modern take on [orchestrator](https://www.npmjs.org/package/orchestrator), hence the name. If you\'ve used orchestrator for web apps and found it cumbersome, Wagner is for you.\n\n' +
   '<img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" width="140">\n\n' +
   '# API\n\n';

@@ -2,6 +2,8 @@
 
 Dependency-injection-inspired async framework that doubles as an isomorphic AngularJS-compatible dependency injector.
 
+  [![Build Status](https://travis-ci.org/vkarpov15/kareem.svg?branch=master)](https://travis-ci.org/vkarpov15/kareem)
+
 Wagner is primarily geared to be a more elegant and modern take on [orchestrator](https://www.npmjs.org/package/orchestrator), hence the name. If you've used orchestrator for web apps and found it cumbersome, Wagner is for you.
 
 <img src="http://upload.wikimedia.org/wikipedia/commons/f/f3/Richard_Wagner_2.jpg" width="140">
