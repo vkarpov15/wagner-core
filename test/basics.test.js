@@ -221,6 +221,22 @@ describe('core', function() {
         done();
       });
   });
+
+  it('locals with error', function(done) {
+    wagner.task('sigfried', function(callback) {
+      throw 'Problem!';
+    });
+
+    wagner.invokeAsync(
+      function(error, sigfried, local) {
+        assert.ok(error);
+        assert.ok(!sigfried);
+        assert.equal(error, 'Problem!');
+        assert.equal('defined', local);
+        done();
+      },
+      { local: 'defined' });
+  });
 });
 
 describe('parallel', function() {
