@@ -59,6 +59,25 @@ describe('core', function() {
     });
   });
 
+  it('exception', function(done) {
+    wagner.task('tristan', function() {
+      throw 'error1';
+    });
+
+    wagner.task('isolde', function(callback) {
+      setTimeout(function() {
+        callback('I got an error');
+      }, 25);
+    });
+
+    wagner.invokeAsync(function(error, tristan, isolde) {
+      assert.equal(error, 'error1');
+      assert.ok(!tristan);
+      assert.ok(!isolde);
+      done();
+    });
+  });
+
   it('sync', function(done) {
     wagner.task('tristan', function() {
       return 'tristan';
@@ -84,6 +103,23 @@ describe('core', function() {
     assert.equal(i, 'isolde');
     assert.equal(returnValue, 'done');
     process.nextTick(function() {
+      done();
+    });
+  });
+
+  it('async with sync-only', function(done) {
+    wagner.task('tristan', function() {
+      return 'tristan';
+    });
+
+    wagner.task('isolde', function() {
+      return 'isolde';
+    });
+
+    wagner.invokeAsync(function(error, tristan, isolde) {
+      assert.ifError(error);
+      assert.equal('tristan', tristan);
+      assert.equal('isolde', isolde);
       done();
     });
   });
@@ -328,6 +364,24 @@ describe('series', function() {
 describe('modules', function() {
   it('works', function(done) {
     var foods = wagner.module('foods');
+    foods.factory('bacon', function() {
+      return 'bacon';
+    });
+    foods.factory('eggs', function() {
+      return 'eggs';
+    });
+
+    var breakfast = wagner.module('breakfast', ['foods']);
+    breakfast.invoke(function(error, bacon, eggs) {
+      assert.ok(!error);
+      assert.equal(bacon, 'bacon');
+      assert.equal(eggs, 'eggs');
+      done();
+    });
+  });
+
+  it('can use wagner() as shorthand', function(done) {
+    var foods = wagner('foods');
     foods.factory('bacon', function() {
       return 'bacon';
     });
