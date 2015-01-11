@@ -15,7 +15,13 @@
   "devDependencies": {
     "acquit": "0.0.3",
     "istanbul": "0.3.2",
+    "jscs": "1.9.0",
     "mocha": "2.0.1"
+  },
+  "jscsConfig": {
+    "preset": "airbnb",
+    "requireMultipleVarDecl": null,
+    "disallowMultipleVarDecl": true
   },
   "author": "Valeri Karpov",
   "license": "Apache 2.0"
