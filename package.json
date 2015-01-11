@@ -7,6 +7,10 @@
     "test": "./node_modules/mocha/bin/mocha ./test/*.test.js",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vkarpov15/wagner-core.git"
+  },
   "dependencies": {
     "bluebird": "2.3.11",
     "get-parameter-names": "0.2.0",
