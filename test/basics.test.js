@@ -298,9 +298,9 @@ describe('parallel', function() {
       },
       function(error, results) {
         assert.ok(!!error);
-        assert.equal(2, error.length);
-        assert.ok(error.indexOf('first invalid') !== -1);
-        assert.ok(error.indexOf('second invalid') !== -1);
+        assert.equal(2, Object.keys(error.errors).length);
+        assert.equal(error.errors.first, 'first invalid');
+        assert.equal(error.errors.second, 'second invalid');
         assert.ok(!results.first);
         assert.ok(!results.second);
         done();
@@ -315,11 +315,11 @@ describe('parallel', function() {
       },
       function(error, results) {
         assert.ok(!!error);
-        assert.equal(2, error.length);
-        assert.ok(error.indexOf('first invalid') !== -1);
-        assert.ok(error.indexOf('second invalid') !== -1);
-        assert.equal(results.first.error, 'first invalid');
-        assert.equal(results.second.error, 'second invalid');
+        assert.equal(2, Object.keys(error.errors).length);
+        assert.equal(error.errors.first, 'first invalid');
+        assert.equal(error.errors.second, 'second invalid');
+        assert.ok(!results.first);
+        assert.ok(!results.second);
         done();
       });
   });
