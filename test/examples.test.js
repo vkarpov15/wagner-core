@@ -182,8 +182,8 @@ describe('`wagner.parallel()`', function() {
       },
       function(error, results) {
         assert.ok(!error);
-        assert.equal(results.first.result, 'EGGS');
-        assert.equal(results.second.result, 'BACON');
+        assert.equal(results.first, 'EGGS');
+        assert.equal(results.second, 'BACON');
         done();
       });
   });

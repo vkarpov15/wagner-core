@@ -283,9 +283,9 @@ describe('parallel', function() {
         callback(null, value.toUpperCase());
       },
       function(error, results) {
-        assert.ok(!error);
-        assert.equal(results.first.result, 'PARSIFAL');
-        assert.equal(results.second.result, 'GOTTERDAMMERUNG');
+        assert.ifError(error);
+        assert.equal(results.first, 'PARSIFAL');
+        assert.equal(results.second, 'GOTTERDAMMERUNG');
         done();
       });
   });
@@ -301,8 +301,8 @@ describe('parallel', function() {
         assert.equal(2, error.length);
         assert.ok(error.indexOf('first invalid') !== -1);
         assert.ok(error.indexOf('second invalid') !== -1);
-        assert.equal(results.first.error, 'first invalid');
-        assert.equal(results.second.error, 'second invalid');
+        assert.ok(!results.first);
+        assert.ok(!results.second);
         done();
       });
   });
