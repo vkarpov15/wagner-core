@@ -273,6 +273,33 @@ describe('core', function() {
       },
       { local: 'defined' });
   });
+
+  it('reuses services', function(done) {
+    var value = { count: 1 };
+    var callCount = 0;
+    wagner.factory('bacon', function() {
+      ++callCount;
+      return value;
+    });
+
+    wagner.task('breakfast', function(bacon, callback) {
+      assert.equal(value, bacon);
+      callback(null);
+    });
+
+    wagner.task('lunch', function(bacon, callback) {
+      assert.equal(value, bacon);
+      callback(null);
+    });
+
+    wagner.invokeAsync(function(breakfast) {
+      assert.equal(1, callCount);
+      wagner.invokeAsync(function(lunch) {
+        assert.equal(1, callCount);
+        done();
+      });
+    });
+  });
 });
 
 describe('parallel', function() {
