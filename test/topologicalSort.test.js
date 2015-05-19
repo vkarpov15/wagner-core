@@ -101,4 +101,23 @@ describe('topologicalSort', function() {
       sort(tasks, ['eggs']);
     }, /Sync dependency eggs depends on async dependency bacon/i);
   });
+
+  it('only detects digraph cycles', function() {
+    var tasks = {
+      eggs: {
+        name: 'eggs',
+        dep: ['bacon', 'pan']
+      },
+      bacon: {
+        name: 'bacon',
+        dep: ['pan']
+      },
+      pan: {
+        name: 'pan',
+        dep: []
+      }
+    };
+
+    assert.deepEqual(sort(tasks, ['eggs']), ['pan', 'bacon', 'eggs']);
+  });
 });
