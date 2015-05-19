@@ -325,6 +325,48 @@ describe('core', function() {
       wagner.invoke(function(breakfast) {});
     }, 'Called invoke() with async dependency breakfast');
   });
+
+  it('passes as many parameters as are completed', function(done) {
+    var value = { count: 1 };
+    wagner.factory('bacon', function() {
+      return value;
+    });
+
+    wagner.task('breakfast', function(bacon, callback) {
+      callback('Invalid!');
+    });
+
+    wagner.task('lunch', function(breakfast, callback) {
+      callback(4);
+    });
+
+    wagner.invokeAsync(function(error, bacon, breakfast, lunch) {
+      assert.equal(value, bacon);
+      assert.ok(!breakfast);
+      assert.ok(!lunch);
+      done();
+    });
+  });
+
+  it('throws if no error param', function(done) {
+    var value = { count: 1 };
+    var called = false;
+    wagner.factory('bacon', function() {
+      return value;
+    });
+
+    wagner.task('breakfast', function(bacon, callback) {
+      callback('Invalid!');
+    });
+
+    var emitter = wagner.invokeAsync(function(breakfast) {
+      assert.ok(false);
+    });
+    emitter.on('error', function(err) {
+      assert.equal(err.toString(), 'Invalid!');
+      done();
+    });
+  });
 });
 
 describe('parallel', function() {
