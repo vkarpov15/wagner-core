@@ -1,6 +1,6 @@
 # wagner-core
 
-Dependency-injection-inspired async framework that doubles as an isomorphic AngularJS-compatible dependency injector.
+Dependency injector and di-based async framework.
 
   [![Build Status](https://travis-ci.org/vkarpov15/wagner-core.svg?branch=master)](https://travis-ci.org/vkarpov15/wagner-core)
 
@@ -143,33 +143,6 @@ as the first parameter.
   
 ```
 
-#### It returns an Promises/A+ conformant promise
-
-For compatibility with the `yield` keyword, as well as chaining,
-`invokeAsync()` returns a
-[bluebird](https://www.npmjs.org/package/bluebird) promise that is
-rejected if an error occurs in any of the tasks, or fulfilled with
-the return value of the provided function otherwise.
-
-```javascript
-    
-    wagner.task('valkyrie', function(callback) {
-      setTimeout(function() {
-        callback(null, 'valkyrie');
-      }, 0);
-    });
-
-    var promise = wagner.invokeAsync(function(error, valkyrie) {
-      return valkyrie;
-    }, {});
-
-    promise.then(function(v) {
-      assert.equal(v, 'valkyrie');
-      done();
-    });
-  
-```
-
 ## `wagner.invoke()`
 
 `invoke()` is the synchronous version of `invokeAsync()`. It will
@@ -226,8 +199,8 @@ the need to construct arrays of closures: the callback to
       },
       function(error, results) {
         assert.ok(!error);
-        assert.equal(results.first.result, 'EGGS');
-        assert.equal(results.second.result, 'BACON');
+        assert.equal(results.first, 'EGGS');
+        assert.equal(results.second, 'BACON');
         done();
       });
   
