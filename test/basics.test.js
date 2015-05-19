@@ -7,61 +7,61 @@ describe('core', function() {
     wagner.clear();
   });
 
-  it('works', function(done) {
-    wagner.task('tristan', function(callback) {
+  it('simple timeout', function(done) {
+    wagner.task('task1', function(callback) {
       setTimeout(function() {
-        callback(null, 'tristan');
+        callback(null, 'test');
       }, 50);
     });
 
-    wagner.invokeAsync(function(error, tristan) {
+    wagner.invokeAsync(function(error, task1) {
       assert.ok(!error);
-      assert.equal(tristan, 'tristan');
+      assert.equal(task1, 'test');
       done();
     }, {});
   });
 
   it('error', function(done) {
-    wagner.task('tristan', function(callback) {
+    wagner.task('task1', function(callback) {
       setTimeout(function() {
-        callback(null, 'tristan');
+        callback(null, 'test');
       }, 50);
     });
 
-    wagner.task('isolde', function(callback) {
+    wagner.task('taskError', function(callback) {
       setTimeout(function() {
         callback('I got an error');
       }, 25);
     });
 
-    wagner.invokeAsync(function(error, tristan, isolde) {
+    wagner.invokeAsync(function(error, task1, taskError) {
       assert.equal(error, 'I got an error');
-      assert.ok(!tristan);
-      assert.ok(!isolde);
+      assert.ok(!task1);
+      assert.ok(!taskError);
       done();
     });
   });
 
   it('exception', function(done) {
-    wagner.task('tristan', function() {
+    wagner.task('task1', function() {
       throw 'error1';
     });
 
-    wagner.task('isolde', function(callback) {
+    wagner.task('task2', function(callback) {
       setTimeout(function() {
         callback('I got an error');
       }, 25);
     });
 
-    wagner.invokeAsync(function(error, tristan, isolde) {
+    wagner.invokeAsync(function(error, task1, task2) {
       assert.equal(error, 'error1');
-      assert.ok(!tristan);
-      assert.ok(!isolde);
+      assert.ok(!task1);
+      assert.ok(!task2);
       done();
     });
   });
 
-  it('sync', function(done) {
+  it('sync', function() {
     wagner.task('tristan', function() {
       return 'tristan';
     });
@@ -70,24 +70,15 @@ describe('core', function() {
       return 'isolde';
     });
 
-    var e;
-    var t;
-    var i;
     var returnValue = wagner.invoke(function(error, tristan, isolde) {
-      e = error;
-      t = tristan;
-      i = isolde;
+      assert.ok(!error);
+      assert.equal(tristan, 'tristan');
+      assert.equal(isolde, 'isolde');
 
       return 'done';
     });
 
-    assert.ok(!e);
-    assert.equal(t, 'tristan');
-    assert.equal(i, 'isolde');
     assert.equal(returnValue, 'done');
-    process.nextTick(function() {
-      done();
-    });
   });
 
   it('async with sync-only', function(done) {
@@ -107,22 +98,20 @@ describe('core', function() {
     });
   });
 
-  it('sync errors', function(done) {
-    wagner.task('tristan', function() {
+  it('sync errors', function() {
+    wagner.task('task1', function() {
       return 'tristan';
     });
 
-    wagner.task('isolde', function() {
+    wagner.task('task2', function() {
       throw 'Problem!';
     });
 
     assert.throws(function() {
-      var returnValue = wagner.invoke(function(error, tristan, isolde) {
+      var returnValue = wagner.invoke(function(error, task1, task2) {
         return 'done';
       });
     }, 'Problem!');
-
-    done();
   });
 
   it('recursive', function(done) {
@@ -167,19 +156,19 @@ describe('core', function() {
   });
 
   it('factory', function(done) {
-    wagner.factory('nothung', function() {
-      return { from: 'barnstokkr' };
+    wagner.factory('v', function() {
+      return { hello: 'world' };
     });
 
-    wagner.task('sigfried', function(nothung, callback) {
+    wagner.task('task1', function(v, callback) {
       setTimeout(function() {
-        callback(null, { sword: nothung });
+        callback(null, v);
       }, 25);
     });
 
-    wagner.invokeAsync(function(error, sigfried) {
+    wagner.invokeAsync(function(error, task1) {
       assert.ok(!error);
-      assert.equal(sigfried.sword.from, 'barnstokkr');
+      assert.equal(task1.hello, 'world');
       done();
     });
   });
