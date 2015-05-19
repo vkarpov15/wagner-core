@@ -82,11 +82,14 @@ describe('core', function() {
   });
 
   it('async with sync-only', function(done) {
+    var numCalls = { tristan: 0, isolde: 0 };
     wagner.factory('tristan', function() {
+      ++numCalls.tristan;
       return 'tristan';
     });
 
     wagner.factory('isolde', function() {
+      ++numCalls.isolde;
       return 'isolde';
     });
 
@@ -94,12 +97,15 @@ describe('core', function() {
       assert.ifError(error);
       assert.equal('tristan', tristan);
       assert.equal('isolde', isolde);
-console.log(1);
+      assert.equal(numCalls.tristan, 1);
+      assert.equal(numCalls.isolde, 1);
+
       wagner.invokeAsync(function(error, tristan, isolde) {
-console.log(2);
         assert.ifError(error);
         assert.equal('tristan', tristan);
         assert.equal('isolde', isolde);
+        assert.equal(numCalls.tristan, 1);
+        assert.equal(numCalls.isolde, 1);
         done();
       });
     });
@@ -233,6 +239,26 @@ console.log(2);
     }, { number: 4 });
   });
 
+  it('sync service cache', function() {
+    var numCalls = 0;
+    wagner.factory('eggs', function(number) {
+      ++numCalls;
+      return 'Cooking ' + number + ' eggs';
+    });
+
+    wagner.invoke(function(eggs) {
+      assert.equal(eggs, 'Cooking 4 eggs');
+    }, { number: 4 });
+
+    assert.equal(numCalls, 1);
+
+    wagner.invoke(function(eggs) {
+      assert.equal(eggs, 'Cooking 4 eggs');
+    }, { number: 4 });
+
+    assert.equal(numCalls, 1);
+  });
+
   it('async errors', function(done) {
     wagner.task('sigfried', function(callback) {
       throw 'Problem!';
@@ -283,11 +309,21 @@ console.log(2);
 
     wagner.invokeAsync(function(breakfast) {
       assert.equal(1, callCount);
-      wagner.invokeAsync(function(lunch) {
+      wagner.invokeAsync(function(breakfast, lunch) {
         assert.equal(1, callCount);
         done();
       });
     });
+  });
+
+  it('throws when invoke() called with async dependency', function() {
+    wagner.task('breakfast', function(callback) {
+      callback(null);
+    });
+
+    assert.throws(function() {
+      wagner.invoke(function(breakfast) {});
+    }, 'Called invoke() with async dependency breakfast');
   });
 });
 
