@@ -367,6 +367,40 @@ describe('core', function() {
       done();
     });
   });
+
+  it('async task as service', function(done) {
+    var value = { count: 1 };
+    var called = { bacon: 0, breakfast: 0, lunch: 0 };
+    wagner.factory('bacon', function() {
+      ++called.bacon;
+      return value;
+    });
+
+    wagner.task('breakfast', function(bacon, callback) {
+      ++called.breakfast;
+      callback(null, 4);
+    });
+
+    wagner._getTasks()['breakfast'].service = true;
+
+    wagner.task('lunch', function(breakfast, callback) {
+      ++called.lunch;
+      callback(null, 2);
+    });
+
+    wagner.invokeAsync(function(error, lunch) {
+      assert.equal(called.bacon, 1);
+      assert.equal(called.breakfast, 1);
+      assert.equal(called.lunch, 1);
+
+      wagner.invokeAsync(function(error, lunch) {
+        assert.equal(called.bacon, 1);
+        assert.equal(called.breakfast, 1);
+        assert.equal(called.lunch, 2);
+        done();
+      });
+    });
+  });
 });
 
 describe('parallel', function() {
