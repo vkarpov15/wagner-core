@@ -94,7 +94,13 @@ describe('core', function() {
       assert.ifError(error);
       assert.equal('tristan', tristan);
       assert.equal('isolde', isolde);
-      done();
+
+      wagner.invokeAsync(function(error, tristan, isolde) {
+        assert.ifError(error);
+        assert.equal('tristan', tristan);
+        assert.equal('isolde', isolde);
+        done();
+      });
     });
   });
 
