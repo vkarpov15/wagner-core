@@ -61,7 +61,7 @@ describe('core', function() {
     });
   });
 
-  it('sync', function() {
+  it('sync tasks', function(done) {
     wagner.task('tristan', function() {
       return 'tristan';
     });
@@ -79,6 +79,14 @@ describe('core', function() {
     });
 
     assert.equal(returnValue, 'done');
+
+    wagner.invokeAsync(function(error, tristan, isolde) {
+      assert.ok(!error);
+      assert.equal(tristan, 'tristan');
+      assert.equal(isolde, 'isolde');
+
+      done();
+    });
   });
 
   it('async with sync-only', function(done) {
@@ -399,6 +407,25 @@ describe('core', function() {
         assert.equal(called.lunch, 2);
         done();
       });
+    });
+  });
+
+  it('return error after done', function(done) {
+    wagner.task('breakfast', function(callback) {
+      setTimeout(function() {
+        callback('Invalid!');
+      }, 5);
+    });
+
+    wagner.task('lunch', function(callback) {
+      setTimeout(function() {
+        callback('Invalid2!');
+      }, 15);
+    });
+
+    wagner.invokeAsync(function(error, breakfast, lunch) {
+      assert.ok(error);
+      done();
     });
   });
 });
