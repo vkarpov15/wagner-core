@@ -82,11 +82,11 @@ describe('core', function() {
   });
 
   it('async with sync-only', function(done) {
-    wagner.task('tristan', function() {
+    wagner.factory('tristan', function() {
       return 'tristan';
     });
 
-    wagner.task('isolde', function() {
+    wagner.factory('isolde', function() {
       return 'isolde';
     });
 
@@ -94,8 +94,9 @@ describe('core', function() {
       assert.ifError(error);
       assert.equal('tristan', tristan);
       assert.equal('isolde', isolde);
-
+console.log(1);
       wagner.invokeAsync(function(error, tristan, isolde) {
+console.log(2);
         assert.ifError(error);
         assert.equal('tristan', tristan);
         assert.equal('isolde', isolde);
@@ -220,6 +221,16 @@ describe('core', function() {
         done();
       },
       { nothung: { from: 'barnstokkr' } });
+  });
+
+  it('sync locals', function() {
+    wagner.factory('eggs', function(number) {
+      return 'Cooking ' + number + ' eggs';
+    });
+
+    wagner.invoke(function(eggs) {
+      assert.equal(eggs, 'Cooking 4 eggs');
+    }, { number: 4 });
   });
 
   it('async errors', function(done) {
@@ -353,13 +364,31 @@ describe('series', function() {
           throw value;
         } else {
           callback(null, value);
-
         }
       },
       function(error, results) {
         assert.ok(!!error);
         assert.ok(!results);
         assert.equal(error.error, 'gotterdammerung');
+        assert.equal(error.index, 1);
+        done();
+      });
+  });
+
+  it('stops on error', function(done) {
+    wagner.series(
+      ['parsifal', 'gotterdammerung'],
+      function(value, index, callback) {
+        if (index > 0) {
+          return callback('Error!');
+        } else {
+          callback(null, value);
+        }
+      },
+      function(error, results) {
+        assert.ok(!!error);
+        assert.ok(!results);
+        assert.equal(error.error, 'Error!');
         assert.equal(error.index, 1);
         done();
       });
