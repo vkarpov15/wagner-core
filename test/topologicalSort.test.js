@@ -1,9 +1,9 @@
 var assert = require('assert');
 
-var taskUtil = require('../lib/task');
+var taskUtil = require('../lib/topologicalSort');
 
-describe('dfs', function() {
-  it('works', function() {
+describe('taskUtil', function() {
+  it('sync', function() {
     var tasks = {
       eggs: {
         name: 'eggs',
@@ -23,25 +23,25 @@ describe('dfs', function() {
       }
     };
 
-    var result = taskUtil.dfs(tasks, ['eggs']);
+    var result = taskUtil(tasks, ['eggs']);
     assert.equal(4, result.length);
     assert.ok(result.indexOf('eggs') !== -1);
     assert.ok(result.indexOf('bacon') !== -1);
     assert.ok(result.indexOf('sausage') !== -1);
     assert.ok(result.indexOf('pan') !== -1);
   });
-});
 
-describe('topological sort', function() {
-  it('works', function() {
+  it('orders async last', function() {
     var tasks = {
       eggs: {
         name: 'eggs',
-        dep: ['bacon', 'sausage']
+        dep: ['bacon', 'sausage'],
+        task: function(callback) {}
       },
       bacon: {
         name: 'bacon',
-        dep: []
+        dep: [],
+        task: function(callback) {}
       },
       sausage: {
         name: 'sausage',
@@ -53,9 +53,9 @@ describe('topological sort', function() {
       }
     };
 
-    var result = taskUtil.topoSort(tasks, ['eggs', 'bacon', 'sausage', 'pan']);
+    var result = taskUtil(tasks, ['eggs', 'bacon', 'sausage', 'pan']);
 
     assert.equal(4, result.length);
-    assert.deepEqual(['bacon', 'pan', 'sausage', 'eggs'], result);
+    assert.deepEqual(['pan', 'sausage', 'bacon', 'eggs'], result);
   });
 });
