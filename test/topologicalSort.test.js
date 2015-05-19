@@ -1,8 +1,8 @@
 var assert = require('assert');
 
-var taskUtil = require('../lib/topologicalSort');
+var sort = require('../lib/topologicalSort');
 
-describe('taskUtil', function() {
+describe('topologicalSort', function() {
   it('sync', function() {
     var tasks = {
       eggs: {
@@ -23,7 +23,7 @@ describe('taskUtil', function() {
       }
     };
 
-    var result = taskUtil(tasks, ['eggs']);
+    var result = sort(tasks, ['eggs']);
     assert.equal(4, result.length);
     assert.ok(result.indexOf('eggs') !== -1);
     assert.ok(result.indexOf('bacon') !== -1);
@@ -53,9 +53,52 @@ describe('taskUtil', function() {
       }
     };
 
-    var result = taskUtil(tasks, ['eggs', 'bacon', 'sausage', 'pan']);
+    var result = sort(tasks, ['eggs', 'bacon', 'sausage', 'pan']);
 
     assert.equal(4, result.length);
     assert.deepEqual(['pan', 'sausage', 'bacon', 'eggs'], result);
+  });
+
+  it('throws when no such dependency', function() {
+    var tasks = {};
+
+    assert.throws(function() {
+      sort(tasks, ['eggs']);
+    }, /No such dependency: eggs/i);
+  });
+
+  it('throws when dependency cycle', function() {
+    var tasks = {
+      eggs: {
+        name: 'eggs',
+        dep: ['bacon']
+      },
+      bacon: {
+        name: 'bacon',
+        dep: ['eggs'],
+      }
+    };
+
+    assert.throws(function() {
+      sort(tasks, ['eggs']);
+    }, /Cycle detected, task: bacon/i);
+  });
+
+  it('throws when sync dep depends on async dep', function() {
+    var tasks = {
+      eggs: {
+        name: 'eggs',
+        dep: ['bacon']
+      },
+      bacon: {
+        name: 'bacon',
+        dep: [],
+        task: function(callback) {}
+      }
+    };
+
+    assert.throws(function() {
+      sort(tasks, ['eggs']);
+    }, /Sync dependency eggs depends on async dependency bacon/i);
   });
 });
