@@ -30,7 +30,7 @@ describe('As a dependency injector', function() {
     assert.equal(result, 'bacon and eggs');
   });
 
-  /* *locals* are values specific to a particular execution of
+  /* A *local* is a value specific to a particular execution of
    * `invoke()`. You can use locals like any other service. */
   it('allows you to use locals', function() {
     wagner.factory('eggs', function(number) {
@@ -119,6 +119,94 @@ describe('As a way to reduce error-handling boilerplate', function() {
 
     safe.on('error', function(error) {
       assert.equal(error.toString(), 'Oops I messed up');
+      done();
+    });
+  });
+});
+
+/* Wagner also includes the ability to execute async tasks in a
+ * dependency-injection-like way. Wagner has 2 functions, `invokeAsync()`
+ * and `task()`, that enable you to write neat modular async code. */
+describe('As an async framework', function() {
+  beforeEach(function() {
+    wagner.clear();
+  });
+
+  /* The `task()` and `invokeAsync()` are roughly analogous to `factory`
+   * and `invoke()`. There are 3 differences:
+   *
+   * 1. The function you pass to `task()` takes a callback, which it uses to
+   * pass a value to dependent tasks.
+   * 1. The function you pass to `invokeAsync()` takes an error, which
+   * contains the first error that happened when executing the specified tasks.
+   * 1. Tasks are re-executed every time you call `invokeAsync()`, whereas
+   * services are cached forever. */
+  it('can execute async tasks using `invokeAsync()`', function(done) {
+    wagner.task('task1', function(callback) {
+      setTimeout(function() {
+        callback(null, 'test');
+      }, 50);
+    });
+
+    wagner.invokeAsync(function(error, task1) {
+      assert.ok(!error);
+      assert.equal(task1, 'test');
+      done();
+    });
+  });
+
+  it('re-executes tasks on subsequent calls to `invokeAsync()`', function(done) {
+    var called = 0;
+    wagner.task('task1', function(callback) {
+      ++called;
+      setTimeout(function() {
+        callback(null, 'test');
+      }, 0);
+    });
+
+    wagner.invokeAsync(function(error, task1) {
+      assert.ok(!error);
+      assert.equal(task1, 'test');
+      assert.equal(called, 1);
+
+      wagner.invokeAsync(function(error, task1) {
+        assert.ok(!error);
+        assert.equal(task1, 'test');
+        assert.equal(called, 2);
+        done();
+      });
+    });
+  });
+
+  /* Tasks are executed at most once per call to `invokeAsync()`, and tasks
+   * are executed with maximum parallelization. That is, as soon as all a
+   * tasks dependencies are ready, the task executes. */
+  it('executes tasks with maximum parallelization', function(done) {
+    var executed = {};
+    wagner.task('readFile1', function(callback) {
+      assert.equal(Object.keys(executed).length, 0);
+      executed.readFile1 = true;
+      callback(null, 'test');
+    });
+
+    wagner.task('processFile1', function(readFile1, callback) {
+      assert.equal(Object.keys(executed).length, 1);
+      assert.ok(executed.readFile1);
+      setTimeout(function() {
+        callback(null, 'test');
+      }, 5);
+    });
+
+    wagner.task('logFile1', function(readFile1, callback) {
+      assert.equal(Object.keys(executed).length, 1);
+      assert.ok(executed.readFile1);
+      setTimeout(function() {
+        callback(null, 'test');
+      }, 5);
+    });
+
+    wagner.invokeAsync(function(error, processFile1, logFile1) {
+      assert.ifError(error);
       done();
     });
   });
