@@ -1,7 +1,7 @@
 {
   "name": "wagner-core",
   "version": "0.1.0",
-  "description": "Dependency-injection-inspired async framework that doubles as an isomorphic AngularJS-compatible dependency injector.",
+  "description": "Dependency injector and DI-based async framework for writing modular, durable server code.",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test/*.test.js",

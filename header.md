@@ -1,8 +1,5 @@
 # wagner-core
 
-Dependency injector and DI-based async framework for writing modular, durable
-server code.
-
 [![Build Status](https://travis-ci.org/vkarpov15/wagner-core.svg?branch=master)](https://travis-ci.org/vkarpov15/wagner-core)
 
 Wagner is primarily designed to be a more elegant take on
