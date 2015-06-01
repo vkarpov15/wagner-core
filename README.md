@@ -1,6 +1,7 @@
 # wagner-core
 
 [![Build Status](https://travis-ci.org/vkarpov15/wagner-core.svg?branch=master)](https://travis-ci.org/vkarpov15/wagner-core)
+[![Coverage Status](https://coveralls.io/repos/vkarpov15/wagner-core/badge.svg)](https://coveralls.io/r/vkarpov15/wagner-core)
 
 Wagner is primarily designed to be a more elegant take on
 [orchestrator](https://www.npmjs.org/package/orchestrator), hence the name.
