@@ -1,6 +1,6 @@
 {
   "name": "wagner-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Dependency injector and DI-based async framework for writing modular, durable server code.",
   "main": "index.js",
   "scripts": {
