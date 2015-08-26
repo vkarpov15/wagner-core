@@ -88,10 +88,26 @@ all future calls to `invoke()`.
   
 ```
 
-#### It has a `.constant()` function
+#### It allows you to `.get()` a dependency
 
 `.constant(a, b)` is a convenient shorthand for
 `.factory(a, function() { return b; }`
+
+```javascript
+    
+    wagner.constant('eggs', 6);
+
+    wagner.task('bacon', function(eggs) {
+      return Math.floor(eggs / 2);
+    });
+
+    assert.equal(wagner.get('bacon'), 3);
+  
+```
+
+#### It has a `.constant()` function
+
+You can also use `.get()` to explicitly get a dependency.
 
 ```javascript
     
