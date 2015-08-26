@@ -65,8 +65,7 @@ describe('As a dependency injector', function() {
     assert.equal(count, 1);
   });
 
-  /* `.constant(a, b)` is a convenient shorthand for
-   * `.factory(a, function() { return b; }` */
+  /* You can also use `.get()` to explicitly get a dependency. */
   it('allows you to `.get()` a dependency', function() {
     wagner.constant('eggs', 6);
 
@@ -77,7 +76,8 @@ describe('As a dependency injector', function() {
     assert.equal(wagner.get('bacon'), 3);
   });
 
-  /* You can also use `.get()` to explicitly get a dependency. */
+  /* `.constant(a, b)` is a convenient shorthand for
+   * `.factory(a, function() { return b; }` */
   it('has a `.constant()` function', function() {
     wagner.constant('eggs', 5);
 

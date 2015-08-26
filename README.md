@@ -90,8 +90,7 @@ all future calls to `invoke()`.
 
 #### It allows you to `.get()` a dependency
 
-`.constant(a, b)` is a convenient shorthand for
-`.factory(a, function() { return b; }`
+You can also use `.get()` to explicitly get a dependency.
 
 ```javascript
     
@@ -107,7 +106,8 @@ all future calls to `invoke()`.
 
 #### It has a `.constant()` function
 
-You can also use `.get()` to explicitly get a dependency.
+`.constant(a, b)` is a convenient shorthand for
+`.factory(a, function() { return b; }`
 
 ```javascript
     
