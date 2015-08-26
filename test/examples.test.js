@@ -64,6 +64,17 @@ describe('As a dependency injector', function() {
 
     assert.equal(count, 1);
   });
+
+  /* `.constant(a, b)` is a convenient shorthand for
+   * `.factory(a, function() { return b; }` */
+  it('has a `.constant()` function', function() {
+    wagner.constant('eggs', 5);
+
+    wagner.invoke(function(eggs) {
+      assert.equal(eggs, 5);
+    });
+  });
+
 });
 
 /* If you're a NodeJS developer, you've probably gotten sick of writing the

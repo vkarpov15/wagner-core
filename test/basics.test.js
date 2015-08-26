@@ -558,9 +558,7 @@ describe('modules', function() {
     foods.factory('bacon', function() {
       return 'bacon';
     });
-    foods.factory('eggs', function() {
-      return 'eggs';
-    });
+    foods.constant('eggs', 'eggs');
 
     var breakfast = wagner.module('breakfast', ['foods']);
     breakfast.invoke(function(error, bacon, eggs) {

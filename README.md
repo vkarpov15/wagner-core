@@ -88,6 +88,21 @@ all future calls to `invoke()`.
   
 ```
 
+#### It has a `.constant()` function
+
+`.constant(a, b)` is a convenient shorthand for
+`.factory(a, function() { return b; }`
+
+```javascript
+    
+    wagner.constant('eggs', 5);
+
+    wagner.invoke(function(eggs) {
+      assert.equal(eggs, 5);
+    });
+  
+```
+
 ## As a way to reduce error-handling boilerplate
 
 If you're a NodeJS developer, you've probably gotten sick of writing the
