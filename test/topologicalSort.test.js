@@ -81,7 +81,7 @@ describe('topologicalSort', function() {
 
     assert.throws(function() {
       sort(tasks, ['eggs']);
-    }, /Cycle detected, task: bacon/i);
+    }, /Cycle detected: eggs <- bacon <- eggs/i);
   });
 
   it('throws when sync dep depends on async dep', function() {
