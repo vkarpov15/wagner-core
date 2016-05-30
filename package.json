@@ -12,7 +12,7 @@
     "url": "git://github.com/vkarpov15/wagner-core.git"
   },
   "dependencies": {
-    "get-parameter-names": "0.2.0",
+    "get-parameter-names": "0.3.0",
     "underscore": "1.5.2"
   },
   "devDependencies": {
