@@ -16,10 +16,10 @@
     "underscore": "1.5.2"
   },
   "devDependencies": {
-    "acquit": "0.4.1",
+    "acquit": "1.x",
     "istanbul": "0.3.2",
     "jscs": "1.9.0",
-    "mocha": "2.0.1"
+    "mocha": "5.x"
   },
   "jscsConfig": {
     "preset": "airbnb",
